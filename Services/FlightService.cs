@@ -21,4 +21,9 @@ public class FlightService
         flights.Add(flight);
         FileHandler.SaveFlights(flights);
     }
+    public List<Flight> GetAllFlights()
+    {
+        return flights; // This will return the list of all flights
+    }
+
 }

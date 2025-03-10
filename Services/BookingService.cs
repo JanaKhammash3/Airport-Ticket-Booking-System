@@ -70,4 +70,11 @@ public class BookingService
     {
         return bookings.Where(b => b.PassengerId == passengerId).ToList();
     }
+    
+    private FlightService flightService = new FlightService();
+
+    public List<Flight> GetAvailableFlights()
+    {
+        return flightService.GetAllFlights(); // This assumes the FlightService has a method for getting all flights
+    }
 }

@@ -21,11 +21,28 @@ public class PassengerInterface
         switch (choice)
         {
             case "1":
-                Console.Write("Enter Passenger ID: ");
-                int passengerId = int.Parse(Console.ReadLine());
-                Console.Write("Enter Flight ID: ");
-                int flightId = int.Parse(Console.ReadLine());
-                bookingService.BookFlight(passengerId, flightId);
+                // Display available flights
+                var flights = bookingService.GetAvailableFlights();
+                if (flights.Count > 0)
+                {
+                    Console.WriteLine("\n--- Available Flights ---");
+                    foreach (var flight in flights)
+                    {
+                        Console.WriteLine(
+                            $"Flight ID: {flight.Id}, Departure: {flight.DepartureCountry}, Destination: {flight.DestinationCountry}, Class: {flight.Class}");
+                    }
+
+                    Console.Write("Enter Passenger ID: ");
+                    int passengerId = int.Parse(Console.ReadLine());
+                    Console.Write("Enter Flight ID: ");
+                    int flightId = int.Parse(Console.ReadLine());
+                    bookingService.BookFlight(passengerId, flightId);
+                }
+                else
+                {
+                    Console.WriteLine("No available flights.");
+                }
+
                 break;
             case "2":
                 Console.Write("Enter Booking ID: ");
@@ -58,6 +75,7 @@ public class PassengerInterface
                 {
                     Console.WriteLine("Invalid Passenger ID. Please enter a number.");
                 }
+
                 break;
             case "4":
                 Console.Write("Enter Passenger ID: ");
@@ -65,8 +83,10 @@ public class PassengerInterface
                 var bookings = bookingService.GetPassengerBookings(pId);
                 foreach (var booking in bookings)
                 {
-                    Console.WriteLine($"Booking ID: {booking.Id}, Flight ID: {booking.FlightId}, Status: {booking.Status}");
+                    Console.WriteLine(
+                        $"Booking ID: {booking.Id}, Flight ID: {booking.FlightId}, Status: {booking.Status}");
                 }
+
                 break;
             case "5":
                 return;
@@ -74,7 +94,5 @@ public class PassengerInterface
                 Console.WriteLine("Invalid choice.");
                 break;
         }
-        
-        
     }
 }
