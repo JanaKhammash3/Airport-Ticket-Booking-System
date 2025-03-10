@@ -7,13 +7,19 @@ using Airport_Ticket_Booking_System.Models;
 public class FlightService
 {
     private List<Flight> flights = FileHandler.LoadFlights();
-    public List<Flight> SearchFlights(string departureCountry, string destinationCountry, string flightClass)
+    public List<Flight> SearchFlights(string departureCountry, string destinationCountry, string flightClass, decimal minPrice, decimal maxPrice, DateTime? departureDate)
     {
-        return flights.Where(f =>
-            f.DepartureCountry.Equals(departureCountry, StringComparison.OrdinalIgnoreCase) &&
-            f.DestinationCountry.Equals(destinationCountry, StringComparison.OrdinalIgnoreCase) &&
-            f.Class.Equals(flightClass, StringComparison.OrdinalIgnoreCase)).ToList();
+        var filteredFlights = flights.Where(f =>
+                f.DepartureCountry.Equals(departureCountry, StringComparison.OrdinalIgnoreCase) &&
+                f.DestinationCountry.Equals(destinationCountry, StringComparison.OrdinalIgnoreCase) &&
+                f.Class.Equals(flightClass, StringComparison.OrdinalIgnoreCase) &&
+                f.Price >= minPrice && f.Price <= maxPrice &&
+                (!departureDate.HasValue || f.DepartureDate.Date == departureDate.Value.Date)  // Check if departureDate is null or matches
+        ).ToList();
+
+        return filteredFlights;
     }
+
 
     public void AddFlight(Flight flight)
     {

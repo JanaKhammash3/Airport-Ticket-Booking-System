@@ -13,7 +13,8 @@ public class PassengerInterface
         Console.WriteLine("2. Cancel My Booking");
         Console.WriteLine("3. Modify My Bookings");
         Console.WriteLine("4. View My Bookings");
-        Console.WriteLine("5. Back");
+        Console.WriteLine("5. Search Flights");
+        Console.WriteLine("6. Back");
 
         Console.Write("Select an option: ");
         string choice = Console.ReadLine();
@@ -89,10 +90,63 @@ public class PassengerInterface
 
                 break;
             case "5":
+                SearchFlights();  // Call the new search function
+                break;
+            case "6":
                 return;
             default:
                 Console.WriteLine("Invalid choice.");
                 break;
         }
     }
+    public static void SearchFlights()
+    {
+        Console.Write("\nEnter Departure Country: ");
+        string departureCountry = Console.ReadLine();
+
+        Console.Write("Enter Destination Country: ");
+        string destinationCountry = Console.ReadLine();
+
+        Console.Write("Enter Flight Class (Economy/Business/First): ");
+        string flightClass = Console.ReadLine();
+
+        Console.Write("Enter minimum price: ");
+        decimal minPrice = decimal.Parse(Console.ReadLine());
+
+        Console.Write("Enter maximum price: ");
+        decimal maxPrice = decimal.Parse(Console.ReadLine());
+
+        Console.Write("Enter departure date (yyyy-mm-dd) or leave blank: ");
+        string dateInput = Console.ReadLine();
+        DateTime? departureDate = null;
+        if (!string.IsNullOrWhiteSpace(dateInput))
+        {
+            if (DateTime.TryParse(dateInput, out DateTime parsedDate))
+            {
+                departureDate = parsedDate;
+            }
+            else
+            {
+                Console.WriteLine("Invalid date format.");
+            }
+        }
+
+        var flightService = new FlightService();
+        var flights = flightService.SearchFlights(departureCountry, destinationCountry, flightClass, minPrice, maxPrice, departureDate);
+
+        if (flights.Any())
+        {
+            Console.WriteLine("\n--- Search Results ---");
+            foreach (var flight in flights)
+            {
+                Console.WriteLine($"Flight ID: {flight.Id}, Departure: {flight.DepartureCountry}, Destination: {flight.DestinationCountry}, Class: {flight.Class}, Price: {flight.Price:C}, Departure Date: {flight.DepartureDate:yyyy-MM-dd}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No flights found matching your search.");
+        }
+    }
+
+
 }

@@ -12,7 +12,7 @@ public class ManagerInterface
         {
             Console.WriteLine("\n--- Manager Menu ---");
             Console.WriteLine("1. Add a Flight");
-            Console.WriteLine("2. Delete a Flight");
+            Console.WriteLine("2. 1Delete a Flight");
             Console.WriteLine("3. Back");
 
             Console.Write("Select an option: ");
@@ -49,7 +49,7 @@ public class ManagerInterface
             Console.Write("Departure Date (YYYY-MM-DD): ");
             DateTime departureDate = DateTime.Parse(Console.ReadLine());
             Console.Write("Price: ");
-            double price = double.Parse(Console.ReadLine());
+            decimal price = decimal.Parse(Console.ReadLine());
             Console.Write("Class (Economy/Business/First): ");
             string flightClass = Console.ReadLine();
 
