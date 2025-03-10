@@ -8,8 +8,8 @@ namespace Airport_Ticket_Booking_System.Database;
 
 public class FileHandler
 {
-    private static readonly string FlightsFile = "Data/Flights.txt";
-    private static readonly string BookingsFile = "Data/Bookings.txt";
+    private static readonly string FlightsFile = "Database/Flights.txt";
+    private static readonly string BookingsFile = "Database/Bookings.txt";
 
     public static List<Flight> LoadFlights()
     {
