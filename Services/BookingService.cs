@@ -8,7 +8,7 @@ namespace Airport_Ticket_Booking_System.Services;
 
 public class BookingService
 {
-    private List<Booking> bookings = FileHandler.LoadBookings();
+    private static List<Booking> bookings = FileHandler.LoadBookings();
     private List<Flight> flights = FileHandler.LoadFlights();
 
     public void BookFlight(int passengerId, int flightId)
@@ -64,6 +64,33 @@ public class BookingService
         booking.Status = "Canceled";
         FileHandler.SaveBookings(bookings);
         Console.WriteLine("Booking canceled successfully.");
+    }
+    public static List<Booking> GetAllBookings()
+    {
+        return bookings;
+    }
+    
+    // Method to filter bookings (already implemented)
+    public static List<Booking> FilterBookings(int? passengerId = null, int? flightId = null, string status = null)
+    {
+        var filteredBookings = bookings.AsEnumerable();
+
+        if (passengerId.HasValue)
+        {
+            filteredBookings = filteredBookings.Where(b => b.PassengerId == passengerId.Value);
+        }
+
+        if (flightId.HasValue)
+        {
+            filteredBookings = filteredBookings.Where(b => b.FlightId == flightId.Value);
+        }
+
+        if (!string.IsNullOrEmpty(status))
+        {
+            filteredBookings = filteredBookings.Where(b => b.Status.Equals(status, StringComparison.OrdinalIgnoreCase));
+        }
+
+        return filteredBookings.ToList();
     }
 
     public List<Booking> GetPassengerBookings(int passengerId)
