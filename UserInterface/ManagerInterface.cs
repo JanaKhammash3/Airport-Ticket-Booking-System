@@ -11,8 +11,9 @@ public class ManagerInterface
         public static void ShowManagerMenu()
         {
             Console.WriteLine("\n--- Manager Menu ---");
-            Console.WriteLine("1. Add Flight");
-            Console.WriteLine("2. Back");
+            Console.WriteLine("1. Add a Flight");
+            Console.WriteLine("2. Delete a Flight");
+            Console.WriteLine("3. Back");
 
             Console.Write("Select an option: ");
             string choice = Console.ReadLine();
@@ -23,6 +24,11 @@ public class ManagerInterface
                     AddFlight();
                     break;
                 case "2":
+                    Console.Write("Enter Flight ID to delete: ");
+                    int flightId = int.Parse(Console.ReadLine());
+                    flightService.DeleteFlight(flightId);
+                    break;
+                case "3":
                     return;
                 default:
                     Console.WriteLine("Invalid choice.");

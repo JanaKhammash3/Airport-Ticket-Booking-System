@@ -26,4 +26,18 @@ public class FlightService
         return flights; // This will return the list of all flights
     }
 
+    public void DeleteFlight(int flightId)
+    {
+        var flightToDelete = flights.FirstOrDefault(f => f.Id == flightId);
+        if (flightToDelete != null)
+        {
+            flights.Remove(flightToDelete);
+            FileHandler.SaveFlights(flights);
+            Console.WriteLine($"Flight with ID {flightId} has been deleted successfully.");
+        }
+        else
+        {
+            Console.WriteLine($"Flight with ID {flightId} not found.");
+        }
+    }
 }
