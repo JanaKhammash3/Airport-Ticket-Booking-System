@@ -7,7 +7,6 @@ using Airport_Ticket_Booking_System.Models;
 public class FlightService
 {
     private List<Flight> flights = FileHandler.LoadFlights();
-
     public List<Flight> SearchFlights(string departureCountry, string destinationCountry, string flightClass)
     {
         return flights.Where(f =>
