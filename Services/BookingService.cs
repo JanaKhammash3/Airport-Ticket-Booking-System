@@ -32,7 +32,26 @@ public class BookingService
         FileHandler.SaveBookings(bookings);
         Console.WriteLine("Flight booked successfully!");
     }
+    public void ModifyBooking(int bookingId, int newFlightId)
+    {
+        var booking = bookings.FirstOrDefault(b => b.Id == bookingId);
+        if (booking == null)
+        {
+            Console.WriteLine("Booking not found.");
+            return;
+        }
 
+        var newFlight = flights.FirstOrDefault(f => f.Id == newFlightId);
+        if (newFlight == null)
+        {
+            Console.WriteLine("New flight not found.");
+            return;
+        }
+
+        booking.FlightId = newFlightId;
+        FileHandler.SaveBookings(bookings);
+        Console.WriteLine("Booking modified successfully!");
+    }
     public void CancelBooking(int bookingId)
     {
         var booking = bookings.FirstOrDefault(b => b.Id == bookingId);
