@@ -60,17 +60,22 @@ namespace Airport_Ticket_Booking_System.UserInterface
             Console.Write("Enter CSV file path: ");
             string filePath = Console.ReadLine();
 
-            List<Flight> importedFlights = ImportCSV.ImportFlightsFromCsv(filePath);
+            // Load existing flights from the file
+            List<Flight> currentFlights = FileHandler.LoadFlights();
+
+            // Import flights from CSV and pass current flights to ensure correct ID assignment
+            List<Flight> importedFlights = ImportCSV.ImportFlightsFromCsv(filePath, currentFlights);
+    
             if (importedFlights.Count == 0)
             {
                 Console.WriteLine("No flights imported.");
                 return;
             }
 
-            List<Flight> currentFlights = FileHandler.LoadFlights();
+            // Add the imported flights to the current flights list and save to file
             currentFlights.AddRange(importedFlights);
-
             FileHandler.SaveFlights(currentFlights);
+
             Console.WriteLine($"{importedFlights.Count} flights imported successfully.");
         }
 
@@ -101,9 +106,16 @@ namespace Airport_Ticket_Booking_System.UserInterface
                 Price = price,
                 Class = flightClass
             };
-
-            flightService.AddFlight(newFlight);
-            Console.WriteLine("Flight added successfully!");
+            string validationReport = FlightValidation.ValidateFlight(newFlight);
+            if (validationReport.Contains("Valid"))
+            {
+                flightService.AddFlight(newFlight);
+                Console.WriteLine("Flight added successfully!");
+            }
+            else
+            {
+                Console.WriteLine(validationReport);
+            }
         }
 
         private static void DeleteFlight()

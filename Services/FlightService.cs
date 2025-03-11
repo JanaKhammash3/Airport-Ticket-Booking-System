@@ -23,7 +23,10 @@ public class FlightService
 
     public void AddFlight(Flight flight)
     {
-        flight.Id = flights.Count + 1;
+        if (flight.Id == 0) // If the flight does not have an ID, assign it
+        {
+            flight.Id = flights.Count > 0 ? flights.Max(f => f.Id) + 1 : 1; // Assign new ID based on existing flights
+        }
         flights.Add(flight);
         FileHandler.SaveFlights(flights);
     }
