@@ -22,7 +22,7 @@ public class PassengerInterface
         switch (choice)
         {
             case "1":
-                // Display available flights
+                
                 var flights = bookingService.GetAvailableFlights();
                 if (flights.Count > 0)
                 {
@@ -90,7 +90,7 @@ public class PassengerInterface
 
                 break;
             case "5":
-                SearchFlights();  // Call the new search function
+                SearchFlights();  
                 break;
             case "6":
                 return;

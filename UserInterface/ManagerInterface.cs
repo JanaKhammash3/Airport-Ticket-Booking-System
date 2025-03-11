@@ -9,7 +9,27 @@ namespace Airport_Ticket_Booking_System.UserInterface
     public class ManagerInterface
     {
         private static FlightService flightService = new FlightService();
+        private const string ManagerName = "admin";
+        private const string ManagerPassword = "admin123";
 
+        public static void StartManagerInterface()
+        {
+            Console.Write("Enter Manager Name: ");
+            string enteredName = Console.ReadLine();
+
+            Console.Write("Enter Manager Password: ");
+            string enteredPassword = ReadPassword();  
+
+            if (enteredName == ManagerName && enteredPassword == ManagerPassword)
+            {
+                Console.WriteLine("\nLogin successful! Accessing Manager Menu...");
+                ShowManagerMenu();
+            }
+            else
+            {
+                Console.WriteLine("Invalid credentials. Access denied.");
+            }
+        }
         public static void ShowManagerMenu()
         {
             while (true)
@@ -54,16 +74,30 @@ namespace Airport_Ticket_Booking_System.UserInterface
                 }
             }
         }
+        private static string ReadPassword()
+        {
+            string password = "";
+            ConsoleKeyInfo key;
+            do
+            {
+                key = Console.ReadKey(true);
+                if (key.Key != ConsoleKey.Enter)
+                {
+                    password += key.KeyChar;
+                    Console.Write("*"); // Mask input with *
+                }
+            } while (key.Key != ConsoleKey.Enter);
+            Console.WriteLine();
+            return password;
+        }
 
         private static void ImportFlights()
         {
             Console.Write("Enter CSV file path: ");
             string filePath = Console.ReadLine();
 
-            // Load existing flights from the file
             List<Flight> currentFlights = FileHandler.LoadFlights();
 
-            // Import flights from CSV and pass current flights to ensure correct ID assignment
             List<Flight> importedFlights = ImportCSV.ImportFlightsFromCsv(filePath, currentFlights);
     
             if (importedFlights.Count == 0)
@@ -72,7 +106,6 @@ namespace Airport_Ticket_Booking_System.UserInterface
                 return;
             }
 
-            // Add the imported flights to the current flights list and save to file
             currentFlights.AddRange(importedFlights);
             FileHandler.SaveFlights(currentFlights);
 
