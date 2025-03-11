@@ -1,70 +1,100 @@
 ﻿using System;
-using System.Collections.Generic;
 using Airport_Ticket_Booking_System.Services;
+using Airport_Ticket_Booking_System.Database;
 using Airport_Ticket_Booking_System.Models;
+using System.Collections.Generic;
 
-namespace Airport_Ticket_Booking_System.UserInterface;
-public class ManagerInterface
+namespace Airport_Ticket_Booking_System.UserInterface
 {
-    private static FlightService flightService = new FlightService();
-        
+    public class ManagerInterface
+    {
+        private static FlightService flightService = new FlightService();
+
         public static void ShowManagerMenu()
         {
-                Console.WriteLine("\n--- Manager Menu ---");
-                Console.WriteLine("1. Add a Flight");
-                Console.WriteLine("2. Remove a Flight");
-                Console.WriteLine("3. View All Bookings");
-                Console.WriteLine("4. Filter Bookings"); // New option
-                Console.WriteLine("5. Back");
-
-            Console.Write("Select an option: ");
-            string choice = Console.ReadLine();
-
-            switch (choice)
+            while (true)
             {
-                case "1":
-                    AddFlight();
-                    break;
-                case "2":
-                    Console.Write("Enter Flight ID to Remove: ");
-                    int flightId = int.Parse(Console.ReadLine());
-                    flightService.DeleteFlight(flightId);
-                    break;
-                case "3":
-                    ViewAllBookings();
-                    break;
-                case "4":
-                    FilterBookings(); 
-                    break;
-                case "5":
-                    return;
-                default:
-                    Console.WriteLine("Invalid choice.");
-                    break;
+                Console.WriteLine("\n--- Manager Menu ---");
+                Console.WriteLine("1. Add Flight");
+                Console.WriteLine("2. Delete Flight");
+                Console.WriteLine("3. View All Flights");
+                Console.WriteLine("4. Import Flights from CSV");
+                Console.WriteLine("5. View All Bookings");
+                Console.WriteLine("6. Filter Bookings");
+                Console.WriteLine("7. Back");
+
+                Console.Write("Select an option: ");
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        AddFlight();
+                        break;
+                    case "2":
+                        DeleteFlight();
+                        break;
+                    case "3":
+                        ViewAllFlights();
+                        break;
+                    case "4":
+                        ImportFlights();
+                        break;
+                    case "5":
+                        ViewAllBookings();
+                        break;
+                    case "6":
+                        FilterBookings();
+                        break;
+                    case "7":
+                        return;
+                    default:
+                        Console.WriteLine("Invalid choice. Please try again.");
+                        break;
+                }
             }
+        }
+
+        private static void ImportFlights()
+        {
+            Console.Write("Enter CSV file path: ");
+            string filePath = Console.ReadLine();
+
+            List<Flight> importedFlights = ImportCSV.ImportFlightsFromCsv(filePath);
+            if (importedFlights.Count == 0)
+            {
+                Console.WriteLine("No flights imported.");
+                return;
+            }
+
+            List<Flight> currentFlights = FileHandler.LoadFlights();
+            currentFlights.AddRange(importedFlights);
+
+            FileHandler.SaveFlights(currentFlights);
+            Console.WriteLine($"{importedFlights.Count} flights imported successfully.");
         }
 
         private static void AddFlight()
         {
-            Console.Write("Departure Country: ");
-            string departureCountry = Console.ReadLine();
-            Console.Write("Destination Country: ");
-            string destinationCountry = Console.ReadLine();
-            Console.Write("Departure Airport: ");
+            Console.Write("Enter Departure Country: ");
+            string departure = Console.ReadLine();
+            Console.Write("Enter Destination Country: ");
+            string destination = Console.ReadLine();
+            Console.Write("Enter Departure Airport: ");
             string departureAirport = Console.ReadLine();
-            Console.Write("Arrival Airport: ");
+            Console.Write("Enter Arrival Airport: ");
             string arrivalAirport = Console.ReadLine();
-            Console.Write("Departure Date (YYYY-MM-DD): ");
+            Console.Write("Enter Departure Date (yyyy-MM-dd HH:mm): ");
             DateTime departureDate = DateTime.Parse(Console.ReadLine());
-            Console.Write("Price: ");
+            Console.Write("Enter Price: ");
             decimal price = decimal.Parse(Console.ReadLine());
-            Console.Write("Class (Economy/Business/First): ");
+            Console.Write("Enter Class (Economy/Business/First): ");
             string flightClass = Console.ReadLine();
 
-            Flight flight = new Flight
+            Flight newFlight = new Flight
             {
-                DepartureCountry = departureCountry,
-                DestinationCountry = destinationCountry,
+                DepartureCountry = departure,
+                DestinationCountry = destination,
                 DepartureAirport = departureAirport,
                 ArrivalAirport = arrivalAirport,
                 DepartureDate = departureDate,
@@ -72,31 +102,60 @@ public class ManagerInterface
                 Class = flightClass
             };
 
-            flightService.AddFlight(flight);
+            flightService.AddFlight(newFlight);
             Console.WriteLine("Flight added successfully!");
         }
-        public static void ViewAllBookings()
-        {
-            var bookings = BookingService.GetAllBookings(); // Method in BookingService to get all bookings
 
-            if (bookings.Any())
+        private static void DeleteFlight()
+        {
+            Console.Write("Enter Flight ID to delete: ");
+            if (int.TryParse(Console.ReadLine(), out int flightId))
             {
-                Console.WriteLine("\n--- All Bookings ---");
-                foreach (var booking in bookings)
-                {
-                    Console.WriteLine($"Booking ID: {booking.Id}, Passenger ID: {booking.PassengerId}, Flight ID: {booking.FlightId}, Status: {booking.Status}");
-                }
+                flightService.DeleteFlight(flightId);
+                Console.WriteLine("Flight deleted successfully.");
             }
             else
             {
-                Console.WriteLine("No bookings available.");
+                Console.WriteLine("Invalid Flight ID.");
             }
         }
-        public static void FilterBookings()
+
+        private static void ViewAllFlights()
+        {
+            List<Flight> flights = FileHandler.LoadFlights();
+            if (flights.Count == 0)
+            {
+                Console.WriteLine("No flights available.");
+                return;
+            }
+
+            Console.WriteLine("\n--- All Flights ---");
+            foreach (var flight in flights)
+            {
+                Console.WriteLine($"ID: {flight.Id}, From: {flight.DepartureCountry} ({flight.DepartureAirport}) To: {flight.DestinationCountry} ({flight.ArrivalAirport}), Date: {flight.DepartureDate}, Price: {flight.Price}, Class: {flight.Class}");
+            }
+        }
+
+        private static void ViewAllBookings()
+        {
+            List<Booking> bookings = FileHandler.LoadBookings();
+            if (bookings.Count == 0)
+            {
+                Console.WriteLine("No bookings available.");
+                return;
+            }
+
+            Console.WriteLine("\n--- All Bookings ---");
+            foreach (var booking in bookings)
+            {
+                Console.WriteLine($"Booking ID: {booking.Id}, Passenger ID: {booking.PassengerId}, Flight ID: {booking.FlightId}, Status: {booking.Status}");
+            }
+        }
+
+        private static void FilterBookings()
         {
             Console.WriteLine("\n--- Filter Bookings ---");
 
-            // Get filters from the user
             Console.Write("Enter Passenger ID (leave blank to skip): ");
             string passengerInput = Console.ReadLine();
             int? passengerId = string.IsNullOrEmpty(passengerInput) ? (int?)null : int.Parse(passengerInput);
@@ -108,7 +167,6 @@ public class ManagerInterface
             Console.Write("Enter Booking Status (leave blank to skip): ");
             string status = Console.ReadLine();
 
-            // Get filtered bookings
             var filteredBookings = BookingService.FilterBookings(passengerId, flightId, status);
 
             if (filteredBookings.Any())
@@ -124,4 +182,5 @@ public class ManagerInterface
                 Console.WriteLine("No bookings found with the given criteria.");
             }
         }
+    }
 }
