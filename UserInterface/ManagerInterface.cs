@@ -122,7 +122,7 @@ namespace Airport_Ticket_Booking_System.UserInterface
             string departureAirport = Console.ReadLine();
             Console.Write("Enter Arrival Airport: ");
             string arrivalAirport = Console.ReadLine();
-            Console.Write("Enter Departure Date (yyyy-MM-dd HH:mm): ");
+            Console.Write("Enter Departure Date (yyyy-MM-dd): ");
             DateTime departureDate = DateTime.Parse(Console.ReadLine());
             Console.Write("Enter Price: ");
             decimal price = decimal.Parse(Console.ReadLine());
@@ -157,7 +157,6 @@ namespace Airport_Ticket_Booking_System.UserInterface
             if (int.TryParse(Console.ReadLine(), out int flightId))
             {
                 flightService.DeleteFlight(flightId);
-                Console.WriteLine("Flight deleted successfully.");
             }
             else
             {
