@@ -84,7 +84,7 @@ namespace Airport_Ticket_Booking_System.UserInterface
                 if (key.Key != ConsoleKey.Enter)
                 {
                     password += key.KeyChar;
-                    Console.Write("*"); // Mask input with *
+                    Console.Write("*"); 
                 }
             } while (key.Key != ConsoleKey.Enter);
             Console.WriteLine();

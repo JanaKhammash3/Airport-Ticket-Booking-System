@@ -40,17 +40,17 @@ public class ImportCSV
             {
                 Flight flight = new Flight
                 {
-                    Id = ++maxId, // Assign a new ID
+                    Id = ++maxId, 
                     DepartureCountry = parts[0].Trim(),
                     DestinationCountry = parts[1].Trim(),
                     DepartureAirport = parts[2].Trim(),
                     ArrivalAirport = parts[3].Trim(),
                     DepartureDate = DateTime.TryParseExact(parts[4].Trim(), "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate)
                         ? parsedDate
-                        : DateTime.MinValue, // Handle invalid date format
+                        : DateTime.MinValue,
                     Price = decimal.TryParse(parts[5].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out decimal parsedPrice)
                         ? parsedPrice
-                        : -1, // Handle missing/invalid price
+                        : -1, 
                     Class = parts[6].Trim()
                 };
                 string validationResult = FlightValidation.ValidateFlight(flight);
@@ -60,7 +60,7 @@ public class ImportCSV
                     Console.WriteLine($"Skipping invalid flight: {line}");
                     Console.WriteLine(validationResult);
                     invalidCount++;
-                    continue; // Skip invalid flights
+                    continue; 
                 }
 
                 flights.Add(flight);
@@ -73,7 +73,6 @@ public class ImportCSV
             }
         }
 
-        // Final Summary
         Console.WriteLine($"\n{flights.Count} flights imported successfully.");
         if (invalidCount > 0)
         {
