@@ -30,7 +30,7 @@ public class PassengerInterface
                     foreach (var flight in flights)
                     {
                         Console.WriteLine(
-                            $"Flight ID: {flight.Id}, Departure: {flight.DepartureCountry}, Destination: {flight.DestinationCountry}, Class: {flight.Class}");
+                            $"Flight ID: {flight.Id}, Departure: {flight.DepartureCountry}, Destination: {flight.DestinationCountry}, Class: {flight.Class} , Price: {flight.Price}$");
                     }
 
                     Console.Write("Enter Passenger ID: ");

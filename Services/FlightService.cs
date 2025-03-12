@@ -14,7 +14,7 @@ public class FlightService
                 f.DestinationCountry.Equals(destinationCountry, StringComparison.OrdinalIgnoreCase) &&
                 f.Class.Equals(flightClass, StringComparison.OrdinalIgnoreCase) &&
                 f.Price >= minPrice && f.Price <= maxPrice &&
-                (!departureDate.HasValue || f.DepartureDate.Date == departureDate.Value.Date)  // Check if departureDate is null or matches
+                (!departureDate.HasValue || f.DepartureDate.Date == departureDate.Value.Date)  
         ).ToList();
 
         return filteredFlights;
@@ -23,16 +23,16 @@ public class FlightService
 
     public void AddFlight(Flight flight)
     {
-        if (flight.Id == 0) // If the flight does not have an ID, assign it
+        if (flight.Id == 0) 
         {
-            flight.Id = flights.Count > 0 ? flights.Max(f => f.Id) + 1 : 1; // Assign new ID based on existing flights
+            flight.Id = flights.Count > 0 ? flights.Max(f => f.Id) + 1 : 1; 
         }
         flights.Add(flight);
         FileHandler.SaveFlights(flights);
     }
     public List<Flight> GetAllFlights()
     {
-        return flights; // This will return the list of all flights
+        return flights; 
     }
 
     public void DeleteFlight(int flightId)
