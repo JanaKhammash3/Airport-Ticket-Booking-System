@@ -1,4 +1,4 @@
-# Airport Ticket Booking System ✈️
+# Airport Ticket Booking System 
 
 ## Overview  
 The **Airport Ticket Booking System** is a .NET console application for booking flights and managing flight records. It provides features for both **passengers** and **managers**, using a file-based storage system.
