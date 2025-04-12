@@ -8,12 +8,12 @@ namespace Airport_Ticket_Booking_System.Services;
 
 public class BookingService
 {
-    private static List<Booking> bookings = FileHandler.LoadBookings();
-    private List<Flight> flights = FileHandler.LoadFlights();
+    private static List<Booking> _bookings = FileHandler.LoadBookings();
+    private List<Flight> _flights = FileHandler.LoadFlights();
 
     public void BookFlight(int passengerId, int flightId)
     {
-        var flight = flights.FirstOrDefault(f => f.Id == flightId);
+        var flight = _flights.FirstOrDefault(f => f.Id == flightId);
         if (flight == null)
         {
             Console.WriteLine("Flight not found.");
@@ -22,26 +22,26 @@ public class BookingService
 
         var newBooking = new Booking
         {
-            Id = bookings.Count + 1,
+            Id = _bookings.Count + 1,
             PassengerId = passengerId,
             FlightId = flightId,
             Status = "Booked"
         };
 
-        bookings.Add(newBooking);
-        FileHandler.SaveBookings(bookings);
+        _bookings.Add(newBooking);
+        FileHandler.SaveBookings(_bookings);
         Console.WriteLine("Flight booked successfully!");
     }
     public void ModifyBooking(int bookingId, int newFlightId)
     {
-        var booking = bookings.FirstOrDefault(b => b.Id == bookingId);
+        var booking = _bookings.FirstOrDefault(b => b.Id == bookingId);
         if (booking == null)
         {
             Console.WriteLine("Booking not found.");
             return;
         }
 
-        var newFlight = flights.FirstOrDefault(f => f.Id == newFlightId);
+        var newFlight = _flights.FirstOrDefault(f => f.Id == newFlightId);
         if (newFlight == null)
         {
             Console.WriteLine("New flight not found.");
@@ -49,12 +49,12 @@ public class BookingService
         }
 
         booking.FlightId = newFlightId;
-        FileHandler.SaveBookings(bookings);
+        FileHandler.SaveBookings(_bookings);
         Console.WriteLine("Booking modified successfully!");
     }
     public void CancelBooking(int bookingId)
     {
-        var booking = bookings.FirstOrDefault(b => b.Id == bookingId);
+        var booking = _bookings.FirstOrDefault(b => b.Id == bookingId);
         if (booking == null)
         {
             Console.WriteLine("Booking not found.");
@@ -62,18 +62,18 @@ public class BookingService
         }
 
         booking.Status = "Canceled";
-        FileHandler.SaveBookings(bookings);
+        FileHandler.SaveBookings(_bookings);
         Console.WriteLine("Booking canceled successfully.");
     }
     public static List<Booking> GetAllBookings()
     {
-        return bookings;
+        return _bookings;
     }
     
     // Method to filter bookings (already implemented)
     public static List<Booking> FilterBookings(int? passengerId = null, int? flightId = null, string status = null)
     {
-        var filteredBookings = bookings.AsEnumerable();
+        var filteredBookings = _bookings.AsEnumerable();
 
         if (passengerId.HasValue)
         {
@@ -95,7 +95,7 @@ public class BookingService
 
     public List<Booking> GetPassengerBookings(int passengerId)
     {
-        return bookings.Where(b => b.PassengerId == passengerId).ToList();
+        return _bookings.Where(b => b.PassengerId == passengerId).ToList();
     }
     
     private FlightService flightService = new FlightService();

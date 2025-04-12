@@ -14,7 +14,7 @@ namespace Airport_Ticket_Booking_System
             {
                 Menu.ShowMainMenu();
                 Console.Write("Select an option: ");
-                string choice = Console.ReadLine();
+                var choice = Console.ReadLine();
 
                 switch (choice)
                 {
