@@ -9,8 +9,8 @@ namespace Airport_Ticket_Booking_System.Database;
 
 public class FileHandler
 {
-    private static readonly string FlightsFile = "Database/Flights.txt";
-    private static readonly string BookingsFile = "Database/Bookings.txt";
+    private static readonly string FlightsFile = "AirportTicketBookingSystem/Database/Flights.txt";
+    private static readonly string BookingsFile = "AirportTicketBookingSystem/Database/Bookings.txt";
 
     public static List<Flight> LoadFlights()
     {
@@ -20,7 +20,7 @@ public class FileHandler
 
     public static void SaveFlights(List<Flight> flights)
     {
-        string path = "Database/Flights.txt"; 
+        string path = "AirportTicketBookingSystem/Database/Flights.txt"; 
         string directory = Path.GetDirectoryName(path);
 
         if (!Directory.Exists(directory))
