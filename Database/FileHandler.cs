@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Text.Json;
 using Airport_Ticket_Booking_System.Models;
 
@@ -19,7 +20,19 @@ public class FileHandler
 
     public static void SaveFlights(List<Flight> flights)
     {
-        File.WriteAllText(FlightsFile, JsonSerializer.Serialize(flights));
+        string path = "Database/Flights.txt"; 
+        string directory = Path.GetDirectoryName(path);
+
+        if (!Directory.Exists(directory))
+            Directory.CreateDirectory(directory); 
+
+        var flightData = new StringBuilder();
+        foreach (var flight in flights)
+        {
+            flightData.AppendLine($"{flight.DepartureCountry},{flight.DestinationCountry},{flight.DepartureAirport},{flight.ArrivalAirport},{flight.DepartureDate:yyyy-MM-dd},{flight.Price},{flight.Class}");
+        }
+
+        File.WriteAllText(path, flightData.ToString());
     }
 
     public static List<Booking> LoadBookings()
