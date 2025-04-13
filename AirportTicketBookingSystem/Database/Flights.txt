@@ -14,7 +14,7 @@
     "Price": 300,
     "DepartureCountry": "Germany",
     "DestinationCountry": "France",
-    "DepartureDate": "2025-04-23T19:49:21.7645458+02:00",
+    "DepartureDate": "2025-04-23T20:41:10.8458836+02:00",
     "DepartureAirport": "FRA",
     "ArrivalAirport": "CDG",
     "Class": "Economy"

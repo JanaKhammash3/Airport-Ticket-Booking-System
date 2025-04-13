@@ -1,0 +1,20 @@
+[
+  {
+    "Id": 1,
+    "PassengerId": 1,
+    "FlightId": 2,
+    "Status": "Booked"
+  },
+  {
+    "Id": 2,
+    "PassengerId": 1,
+    "FlightId": 1,
+    "Status": "Booked"
+  },
+  {
+    "Id": 3,
+    "PassengerId": 1,
+    "FlightId": 1,
+    "Status": "Canceled"
+  }
+]
