@@ -12,7 +12,7 @@ public class Menu
             Console.WriteLine("3. Exit");
 
             Console.Write("Select an option: ");
-            string choice = Console.ReadLine();
+            string? choice = Console.ReadLine();
 
             switch (choice)
             {

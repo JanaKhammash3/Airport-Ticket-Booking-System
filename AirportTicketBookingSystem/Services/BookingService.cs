@@ -71,7 +71,7 @@ public class BookingService
     }
     
     // Method to filter bookings (already implemented)
-    public static List<Booking> FilterBookings(int? passengerId = null, int? flightId = null, string status = null)
+    public static List<Booking> FilterBookings(int? passengerId = null, int? flightId = null, string? status = null)
     {
         var filteredBookings = _bookings.AsEnumerable();
 
@@ -87,7 +87,7 @@ public class BookingService
 
         if (!string.IsNullOrEmpty(status))
         {
-            filteredBookings = filteredBookings.Where(b => b.Status.Equals(status, StringComparison.OrdinalIgnoreCase));
+            filteredBookings = filteredBookings.Where(b => b.Status != null && b.Status.Equals(status, StringComparison.OrdinalIgnoreCase));
         }
 
         return filteredBookings.ToList();
@@ -98,10 +98,10 @@ public class BookingService
         return _bookings.Where(b => b.PassengerId == passengerId).ToList();
     }
     
-    private FlightService flightService = new FlightService();
+    private FlightService _flightService = new FlightService();
 
     public List<Flight> GetAvailableFlights()
     {
-        return flightService.GetAllFlights(); // This assumes the FlightService has a method for getting all flights
+        return _flightService.GetAllFlights(); // This assumes the FlightService has a method for getting all flights
     }
 }

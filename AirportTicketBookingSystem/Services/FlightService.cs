@@ -7,9 +7,10 @@ using Airport_Ticket_Booking_System.Models;
 public class FlightService
 {
     private List<Flight> _flights = FileHandler.LoadFlights();
-    public List<Flight> SearchFlights(string departureCountry, string destinationCountry, string flightClass, decimal minPrice, decimal maxPrice, DateTime? departureDate)
+    public List<Flight> SearchFlights(string? departureCountry, string? destinationCountry, string? flightClass, decimal minPrice, decimal maxPrice, DateTime? departureDate)
     {
         var filteredFlights = _flights.Where(f =>
+                f.DepartureCountry != null &&
                 f.DepartureCountry.Equals(departureCountry, StringComparison.OrdinalIgnoreCase) &&
                 f.DestinationCountry != null &&
                 f.DestinationCountry.Equals(destinationCountry, StringComparison.OrdinalIgnoreCase) &&

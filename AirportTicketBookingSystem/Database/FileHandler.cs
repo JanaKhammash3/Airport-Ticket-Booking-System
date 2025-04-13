@@ -21,10 +21,11 @@ public class FileHandler
     public static void SaveFlights(List<Flight> flights)
     {
         string path = "AirportTicketBookingSystem/Database/Flights.txt"; 
-        string directory = Path.GetDirectoryName(path);
+        string? directory = Path.GetDirectoryName(path);
 
         if (!Directory.Exists(directory))
-            Directory.CreateDirectory(directory); 
+            if (directory != null)
+                Directory.CreateDirectory(directory);
 
         var flightData = new StringBuilder();
         foreach (var flight in flights)

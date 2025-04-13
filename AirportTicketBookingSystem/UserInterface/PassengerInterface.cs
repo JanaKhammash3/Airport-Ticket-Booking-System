@@ -4,7 +4,7 @@ namespace Airport_Ticket_Booking_System.UserInterface;
 
 public class PassengerInterface
 {
-    private static BookingService bookingService = new BookingService();
+    private static BookingService _bookingService = new BookingService();
 
     public static void ShowPassengerMenu()
     {
@@ -17,13 +17,13 @@ public class PassengerInterface
         Console.WriteLine("6. Back");
 
         Console.Write("Select an option: ");
-        string choice = Console.ReadLine();
+        string? choice = Console.ReadLine();
 
         switch (choice)
         {
             case "1":
                 
-                var flights = bookingService.GetAvailableFlights();
+                var flights = _bookingService.GetAvailableFlights();
                 if (flights.Count > 0)
                 {
                     Console.WriteLine("\n--- Available Flights ---");
@@ -34,10 +34,10 @@ public class PassengerInterface
                     }
 
                     Console.Write("Enter Passenger ID: ");
-                    int passengerId = int.Parse(Console.ReadLine());
+                    int passengerId = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
                     Console.Write("Enter Flight ID: ");
-                    int flightId = int.Parse(Console.ReadLine());
-                    bookingService.BookFlight(passengerId, flightId);
+                    int flightId = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
+                    _bookingService.BookFlight(passengerId, flightId);
                 }
                 else
                 {
@@ -47,8 +47,8 @@ public class PassengerInterface
                 break;
             case "2":
                 Console.Write("Enter Booking ID: ");
-                int bookingId = int.Parse(Console.ReadLine());
-                bookingService.CancelBooking(bookingId);
+                int bookingId = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
+                _bookingService.CancelBooking(bookingId);
                 break;
             case "3":
                 Console.Write("Enter Passenger ID: ");
@@ -60,7 +60,7 @@ public class PassengerInterface
                         Console.Write("Enter New Flight ID: ");
                         if (int.TryParse(Console.ReadLine(), out int newFlightId))
                         {
-                            bookingService.ModifyBooking(modBookingId, newFlightId);
+                            _bookingService.ModifyBooking(modBookingId, newFlightId);
                         }
                         else
                         {
@@ -80,8 +80,8 @@ public class PassengerInterface
                 break;
             case "4":
                 Console.Write("Enter Passenger ID: ");
-                int pId = int.Parse(Console.ReadLine());
-                var bookings = bookingService.GetPassengerBookings(pId);
+                int pId = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
+                var bookings = _bookingService.GetPassengerBookings(pId);
                 foreach (var booking in bookings)
                 {
                     Console.WriteLine(
@@ -102,22 +102,22 @@ public class PassengerInterface
     public static void SearchFlights()
     {
         Console.Write("\nEnter Departure Country: ");
-        string departureCountry = Console.ReadLine();
+        string? departureCountry = Console.ReadLine();
 
         Console.Write("Enter Destination Country: ");
-        string destinationCountry = Console.ReadLine();
+        string? destinationCountry = Console.ReadLine();
 
         Console.Write("Enter Flight Class (Economy/Business/First): ");
-        string flightClass = Console.ReadLine();
+        string? flightClass = Console.ReadLine();
 
         Console.Write("Enter minimum price: ");
-        decimal minPrice = decimal.Parse(Console.ReadLine());
+        decimal minPrice = decimal.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
 
         Console.Write("Enter maximum price: ");
-        decimal maxPrice = decimal.Parse(Console.ReadLine());
+        decimal maxPrice = decimal.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
 
         Console.Write("Enter departure date (yyyy-mm-dd) or leave blank: ");
-        string dateInput = Console.ReadLine();
+        string? dateInput = Console.ReadLine();
         DateTime? departureDate = null;
         if (!string.IsNullOrWhiteSpace(dateInput))
         {

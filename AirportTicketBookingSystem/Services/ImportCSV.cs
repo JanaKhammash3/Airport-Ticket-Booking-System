@@ -8,7 +8,7 @@ using Airport_Ticket_Booking_System.Models;
 
 public class ImportCSV
 {
-    public static List<Flight> ImportFlightsFromCsv(string filePath, List<Flight> existingFlights)
+    public static List<Flight> ImportFlightsFromCsv(string? filePath, List<Flight> existingFlights)
     {
         List<Flight> flights = new List<Flight>();
 

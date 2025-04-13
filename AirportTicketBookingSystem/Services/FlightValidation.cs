@@ -74,17 +74,21 @@ namespace Airport_Ticket_Booking_System.Services
     }
 
     string[] validClasses = { "Economy", "Business", "First" };
-    flight.Class = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(flight.Class.ToLower());
-
-    if (!validClasses.Contains(flight.Class))
+    if (flight.Class != null)
     {
-        hasErrors = true;
-        validationReport.AppendLine("Class:");
-        validationReport.AppendLine("    Type: Choice (Economy/Business/First)");
-        validationReport.AppendLine($"    Constraint: Must be one of [Economy, Business, First] (Invalid: {flight.Class})");
+        flight.Class = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(flight.Class.ToLower());
+
+        if (!validClasses.Contains(flight.Class))
+        {
+            hasErrors = true;
+            validationReport.AppendLine("Class:");
+            validationReport.AppendLine("    Type: Choice (Economy/Business/First)");
+            validationReport.AppendLine(
+                $"    Constraint: Must be one of [Economy, Business, First] (Invalid: {flight.Class})");
+        }
     }
 
-    // ✅ Return based on actual error presence
+    // Return based on actual error presence
     return hasErrors ? $"--- Flight Model Validation Details ---\n{validationReport}" : "Flight data is valid.";
 }
 

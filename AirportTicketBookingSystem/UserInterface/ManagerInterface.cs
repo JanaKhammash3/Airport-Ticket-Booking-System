@@ -8,14 +8,14 @@ namespace Airport_Ticket_Booking_System.UserInterface
 {
     public class ManagerInterface
     {
-        private static FlightService flightService = new FlightService();
+        private static FlightService _flightService = new FlightService();
         private const string ManagerName = "admin";
         private const string ManagerPassword = "admin123";
 
         public static void StartManagerInterface()
         {
             Console.Write("Enter Manager Name: ");
-            string enteredName = Console.ReadLine();
+            string? enteredName = Console.ReadLine();
 
             Console.Write("Enter Manager Password: ");
             string enteredPassword = ReadPassword();  
@@ -44,7 +44,7 @@ namespace Airport_Ticket_Booking_System.UserInterface
                 Console.WriteLine("7. Back");
 
                 Console.Write("Select an option: ");
-                string choice = Console.ReadLine();
+                string? choice = Console.ReadLine();
 
                 switch (choice)
                 {
@@ -94,7 +94,7 @@ namespace Airport_Ticket_Booking_System.UserInterface
         private static void ImportFlights()
         {
             Console.Write("Enter CSV file path: ");
-            string filePath = Console.ReadLine();
+            string? filePath = Console.ReadLine();
 
             List<Flight> currentFlights = FileHandler.LoadFlights();
 
@@ -115,19 +115,19 @@ namespace Airport_Ticket_Booking_System.UserInterface
         private static void AddFlight()
         {
             Console.Write("Enter Departure Country: ");
-            string departure = Console.ReadLine();
+            string? departure = Console.ReadLine();
             Console.Write("Enter Destination Country: ");
-            string destination = Console.ReadLine();
+            string? destination = Console.ReadLine();
             Console.Write("Enter Departure Airport: ");
-            string departureAirport = Console.ReadLine();
+            string? departureAirport = Console.ReadLine();
             Console.Write("Enter Arrival Airport: ");
-            string arrivalAirport = Console.ReadLine();
+            string? arrivalAirport = Console.ReadLine();
             Console.Write("Enter Departure Date (yyyy-MM-dd): ");
-            DateTime departureDate = DateTime.Parse(Console.ReadLine());
+            DateTime departureDate = DateTime.Parse(Console.ReadLine()!);
             Console.Write("Enter Price: ");
-            decimal price = decimal.Parse(Console.ReadLine());
+            decimal price = decimal.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
             Console.Write("Enter Class (Economy/Business/First): ");
-            string flightClass = Console.ReadLine();
+            string? flightClass = Console.ReadLine();
 
             Flight newFlight = new Flight
             {
@@ -142,7 +142,7 @@ namespace Airport_Ticket_Booking_System.UserInterface
             string validationReport = FlightValidation.ValidateFlight(newFlight);
             if (validationReport.Contains("Valid"))
             {
-                flightService.AddFlight(newFlight);
+                _flightService.AddFlight(newFlight);
                 Console.WriteLine("Flight added successfully!");
             }
             else
@@ -156,7 +156,7 @@ namespace Airport_Ticket_Booking_System.UserInterface
             Console.Write("Enter Flight ID to delete: ");
             if (int.TryParse(Console.ReadLine(), out int flightId))
             {
-                flightService.DeleteFlight(flightId);
+                _flightService.DeleteFlight(flightId);
             }
             else
             {
@@ -201,15 +201,15 @@ namespace Airport_Ticket_Booking_System.UserInterface
             Console.WriteLine("\n--- Filter Bookings ---");
 
             Console.Write("Enter Passenger ID (leave blank to skip): ");
-            string passengerInput = Console.ReadLine();
+            string? passengerInput = Console.ReadLine();
             int? passengerId = string.IsNullOrEmpty(passengerInput) ? (int?)null : int.Parse(passengerInput);
 
             Console.Write("Enter Flight ID (leave blank to skip): ");
-            string flightInput = Console.ReadLine();
+            string? flightInput = Console.ReadLine();
             int? flightId = string.IsNullOrEmpty(flightInput) ? (int?)null : int.Parse(flightInput);
 
             Console.Write("Enter Booking Status (leave blank to skip): ");
-            string status = Console.ReadLine();
+            string? status = Console.ReadLine();
 
             var filteredBookings = BookingService.FilterBookings(passengerId, flightId, status);
 
