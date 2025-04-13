@@ -7,11 +7,10 @@ on:
     branches: [ master ]
 
 env:
-  DOTNET_VERSION: '9.0.x' 
+  DOTNET_VERSION: '9.0.x'
 
 jobs:
   build-and-test:
-
     name: build-and-test-${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -27,7 +26,10 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Restore dependencies
+      - name: Clean solution
+        run: dotnet clean
+
+      - name: Restore NuGet packages
         run: dotnet restore
 
       - name: Build
