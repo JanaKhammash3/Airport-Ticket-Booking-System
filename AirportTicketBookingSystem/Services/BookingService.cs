@@ -20,11 +20,12 @@ public class BookingService
             return;
         }
 
-        int newBookingId = _bookings.Any() ? _bookings.Max(b => b.Id) + 1 : 1; 
+        // Ensure the new booking ID is unique
+        int newBookingId = _bookings.Any() ? _bookings.Max(b => b.Id) + 1 : 1; // Get the highest ID and increment by 1
 
         var newBooking = new Booking
         {
-            Id = newBookingId, 
+            Id = newBookingId, // Set the unique ID
             PassengerId = passengerId,
             FlightId = flightId,
             Status = "Booked"
@@ -40,24 +41,22 @@ public class BookingService
         var booking = _bookings.FirstOrDefault(b => b.Id == bookingId);
         if (booking == null)
         {
-            Console.WriteLine($"Booking with ID {bookingId} not found.");
+            Console.WriteLine("Booking not found.");
             return;
         }
 
         var newFlight = _flights.FirstOrDefault(f => f.Id == newFlightId);
         if (newFlight == null)
         {
-            Console.WriteLine($"Flight with ID {newFlightId} not found.");
+            Console.WriteLine("New flight not found.");
             return;
         }
-        Console.WriteLine($"Before modification: Booking ID: {booking.Id}, Current FlightId: {booking.FlightId}");
+
+        // Modify the booking with the new flight ID
         booking.FlightId = newFlightId;
-        Console.WriteLine($"After modification: Booking ID: {booking.Id}, Updated FlightId: {booking.FlightId}");
         FileHandler.SaveBookings(_bookings);
-    
         Console.WriteLine("Booking modified successfully!");
     }
-
     
     public void CancelBooking(int bookingId)
     {
