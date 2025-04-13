@@ -7,12 +7,12 @@ The **Airport Ticket Booking System** is a .NET console application for booking 
 
 ## Features  
 
-### **For Passengers** 👤  
+### **For Passengers** 
 - ✅ **Book a Flight** – Search and select flights with class-based pricing.  
 - 🔍 **Search for Available Flights** – Find flights based on multiple criteria.  
 - 🛠️ **Manage Bookings** – Cancel, modify, or view personal bookings.  
 
-### **For Managers** 👨‍💼  
+### **For Managers** 
 - 📊 **Filter Bookings** – Search and filter flight bookings.  
 - 📂 **Batch Flight Upload** – Import flights using a CSV file.  
 - ✅ **Validate Imported Flight Data** – Apply model-level validation with detailed error reports.  
