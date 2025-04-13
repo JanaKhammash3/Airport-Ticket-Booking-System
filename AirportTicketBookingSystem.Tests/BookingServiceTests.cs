@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Airport_Ticket_Booking_System.Database;
 using Airport_Ticket_Booking_System.Models;
 using Airport_Ticket_Booking_System.Services;
 using Xunit;
@@ -17,27 +18,27 @@ public class BookingServiceTests
 
         Assert.Equal(initialCount + 1, BookingService.GetAllBookings().Count);
     }
+    
     [Fact]
     public void ModifyBooking_ShouldUpdateFlightId_WhenBookingAndFlightExist()
     {
         var service = new BookingService();
-        
-        service.BookFlight(1, 1); 
-    
-        var bookings = BookingService.GetAllBookings();
-        Assert.NotEmpty(bookings);  
-        var booking = bookings.Last(); 
-        
+
+        service.BookFlight(1, 1);
+
+        var bookings = FileHandler.LoadBookings();
+        Assert.NotEmpty(bookings);
+
+        var booking = bookings.Last();
+
         service.ModifyBooking(booking.Id, newFlightId: 2);
-        
-        var updatedBooking = BookingService.GetAllBookings().FirstOrDefault(b => b.Id == booking.Id);
-        
-        Assert.NotNull(updatedBooking);  
-        if (updatedBooking != null)
-        {
-            Assert.Equal(2, updatedBooking.FlightId);  
-        }
+
+        var updatedBooking = FileHandler.LoadBookings().FirstOrDefault(b => b.Id == booking.Id);
+
+        Assert.NotNull(updatedBooking);
+        Assert.Equal(2, updatedBooking.FlightId);
     }
+
 
 
     [Fact]
