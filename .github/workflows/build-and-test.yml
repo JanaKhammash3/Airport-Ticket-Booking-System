@@ -1,4 +1,4 @@
-﻿name: build-and-test
+﻿name: build and test
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 env:
-  DOTNET_VERSION: '8.0.x'  
+  DOTNET_VERSION: '9.0.x'
 
 jobs:
   build-and-test:
@@ -26,14 +26,11 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Install test SDK
-        run: dotnet add ./AirportTicketBookingSystem.tests/AirportTicketBookingSystem.tests.csproj package Microsoft.NET.Test.Sdk --version 17.13.0
-
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Build
-        run: dotnet build --configuration Release --no-restore
+      - name: Build solution
+        run: dotnet build AirportTicketBookingSystem.csproj --configuration Release --no-restore
 
-      - name: Run Tests
-        run: dotnet test --no-restore --verbosity normal
+      - name: Test project
+        run: dotnet test ./AirportTicketBookingSystem.Tests/AirportTicketBookingSystem.Tests.csproj --no-restore --verbosity normal
