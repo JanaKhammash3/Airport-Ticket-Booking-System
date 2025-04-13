@@ -21,23 +21,25 @@ public class BookingServiceTests
     public void ModifyBooking_ShouldUpdateFlightId_WhenBookingAndFlightExist()
     {
         var service = new BookingService();
-        
+    
+        // Add initial booking
         service.BookFlight(1, 1); 
     
         var bookings = BookingService.GetAllBookings();
         Assert.NotEmpty(bookings);  
         var booking = bookings.Last(); 
-        
+    
+        Console.WriteLine($"Before modification: {booking.FlightId}");
         service.ModifyBooking(booking.Id, newFlightId: 2);
-        
         var updatedBooking = BookingService.GetAllBookings().FirstOrDefault(b => b.Id == booking.Id);
-        
+        Console.WriteLine($"After modification: {updatedBooking?.FlightId}");
         Assert.NotNull(updatedBooking);  
         if (updatedBooking != null)
         {
             Assert.Equal(2, updatedBooking.FlightId);  
         }
     }
+
 
 
     [Fact]
