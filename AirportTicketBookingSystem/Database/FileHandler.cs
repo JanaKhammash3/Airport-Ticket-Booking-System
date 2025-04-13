@@ -10,7 +10,7 @@ namespace Airport_Ticket_Booking_System.Database;
 public class FileHandler
     {
         private static readonly string FlightsFile = @"C:\Users\hp\RiderProjects\Airport-Ticket-Booking-System\AirportTicketBookingSystem\Database\Flights.txt";
-        private static readonly string BookingsFile = Path.Combine(Directory.GetCurrentDirectory(), "Database", "Bookings.txt");
+        private static readonly string BookingsFile = @"C:\Users\hp\RiderProjects\Airport-Ticket-Booking-System\AirportTicketBookingSystem\Database\Bookings.txt";
 
         public static List<Flight> LoadFlights()
         {
