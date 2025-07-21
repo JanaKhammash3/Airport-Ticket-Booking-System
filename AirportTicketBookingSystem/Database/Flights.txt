@@ -1,0 +1,22 @@
+[
+  {
+    "Id": 1,
+    "Price": 150.5,
+    "DepartureCountry": "USA",
+    "DestinationCountry": "UK",
+    "DepartureDate": "2025-05-01T10:00:00",
+    "DepartureAirport": "JFK",
+    "ArrivalAirport": "Heathrow",
+    "Class": "Economy"
+  },
+  {
+    "Id": 2,
+    "Price": 300,
+    "DepartureCountry": "Germany",
+    "DestinationCountry": "France",
+    "DepartureDate": "2025-07-31T14:33:35.3765259+03:00",
+    "DepartureAirport": "FRA",
+    "ArrivalAirport": "CDG",
+    "Class": "Economy"
+  }
+]
