@@ -16,5 +16,23 @@
     "PassengerId": 1,
     "FlightId": 1,
     "Status": "Canceled"
+  },
+  {
+    "Id": 4,
+    "PassengerId": 1,
+    "FlightId": 2,
+    "Status": "Booked"
+  },
+  {
+    "Id": 5,
+    "PassengerId": 1,
+    "FlightId": 1,
+    "Status": "Booked"
+  },
+  {
+    "Id": 6,
+    "PassengerId": 1,
+    "FlightId": 1,
+    "Status": "Canceled"
   }
 ]
