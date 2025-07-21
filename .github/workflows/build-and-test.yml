@@ -19,13 +19,13 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '9.0' 
+          dotnet-version: '9.0'
 
       - name: Restore dependencies
         run: dotnet restore
 
       - name: Build project
-        run: dotnet build
+        run: dotnet build --no-restore
 
       - name: Run Tests
-        run: dotnet test "AirportTicketBookingSystem.Tests\AirportTicketBookingSystem.Tests.csproj"
+        run: dotnet test AirportTicketBookingSystem.Tests/AirportTicketBookingSystem.Tests.csproj --no-build --verbosity normal
